@@ -18,7 +18,7 @@ get '/memos' do
   erb :memos
 end
 
-get '/new' do
+get '/memos/new' do
   @title = '新規作成'
   erb :new_memo
 end
