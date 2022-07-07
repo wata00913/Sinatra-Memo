@@ -11,10 +11,19 @@ class MemoJSONRepository < MemoBaseRepository
     parser = JSON::Parser.new(str)
     json = parser.parse
     @memos = to_memos(json)
+    @path = path
   end
 
   def find_by(id)
     @memos.find { |memo| memo.id == id }
+  end
+
+  def register(new_memo)
+    raise '登録済みのメモがあるため登録できません。' if find_by(new_memo.id)
+
+    @memos << new_memo
+    write(to_json_str(@memos))
+    true
   end
 
   private
@@ -22,6 +31,19 @@ class MemoJSONRepository < MemoBaseRepository
   def to_memos(json)
     json.map do |j|
       Memo.new(j['id'], j['title'], j['content'])
+    end
+  end
+
+  def to_json_str(memos)
+    h_list = memos.map do |m|
+      { id: m.id, title: m.title, content: m.content }
+    end
+    JSON::State.new.generate(h_list)
+  end
+
+  def write(json_str)
+    File.open(@path, 'w') do |f|
+      f.puts json_str
     end
   end
 end

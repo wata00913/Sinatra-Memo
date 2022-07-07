@@ -40,6 +40,27 @@ class MemoJSONRepositoryTest < Minitest::Test
     assert_equal expected[:content], memo.content
   end
 
+  def test_register_new_memo
+    # データ件数が0件の場合のファイルを作成
+    create_test_data_file(@temp_data_path, '[]')
+
+    new_memo = Memo.new(nil, '新規メモ', "メモ作成\n")
+    memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
+    assert memo_repository_before_reload.register(new_memo)
+
+    registered_memo_before_reload = memo_repository_before_reload.find_by(new_memo.id)
+    assert_equal new_memo.id, registered_memo_before_reload.id
+    assert_equal new_memo.title, registered_memo_before_reload.title
+    assert_equal new_memo.content, registered_memo_before_reload.content
+
+    # 登録後のJSONファイルを再読み込んで登録できたか確認
+    memo_repository_after_reload = MemoJSONRepository.new(@temp_data_path)
+    registered_memo_after_reload = memo_repository_after_reload.find_by(new_memo.id)
+    assert_equal new_memo.id, registered_memo_after_reload.id
+    assert_equal new_memo.title, registered_memo_after_reload.title
+    assert_equal new_memo.content, registered_memo_after_reload.content
+  end
+
   def teardown
     FileUtils.remove(@temp_data_path)
   end
