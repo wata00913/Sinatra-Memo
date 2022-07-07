@@ -35,6 +35,13 @@ class MemoJSONRepository < MemoBaseRepository
     true
   end
 
+  def delete(id)
+    raise '登録済みのメモがないため更新できません。' unless find_by(id)
+
+    @memos.delete_if { |m| m.id == id }
+    write(to_json_str(@memos))
+  end
+
   private
 
   def to_memos(json)

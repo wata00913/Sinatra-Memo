@@ -6,4 +6,6 @@ class MemoBaseRepository
   def register(new_memo); end
 
   def update(memo); end
+
+  def delete(id); end
 end
