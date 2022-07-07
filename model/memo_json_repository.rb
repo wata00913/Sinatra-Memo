@@ -26,6 +26,15 @@ class MemoJSONRepository < MemoBaseRepository
     true
   end
 
+  def update(memo)
+    raise '登録済みのメモがないため更新できません。' unless find_by(memo.id)
+
+    idx = @memos.find_index { |m| memo.id == m.id }
+    @memos[idx] = memo
+    write(to_json_str(@memos))
+    true
+  end
+
   private
 
   def to_memos(json)

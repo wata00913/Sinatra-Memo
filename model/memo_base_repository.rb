@@ -4,4 +4,6 @@ class MemoBaseRepository
   def find_by(id) end
 
   def register(new_memo); end
+
+  def update(memo); end
 end

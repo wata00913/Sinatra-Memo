@@ -61,6 +61,40 @@ class MemoJSONRepositoryTest < Minitest::Test
     assert_equal new_memo.content, registered_memo_after_reload.content
   end
 
+  def test_update_memo
+    expected = { id: 'e6eeaa77-d547-4920-a3d2-634ab636c82b', title: 'タイトル変更', content: "内容を変更したよ\n" }
+    json_str = <<~"TEXT"
+      [
+        {
+          "id": "8bd1f78b-a362-4e8d-8510-c3016be1fa89",
+          "title": "タイトル2",
+          "content": "hoge"
+        },
+        {
+          "id": "#{expected[:id]}",
+          "title": "タイトル",
+          "content": "テストだよ\\n"
+        }
+      ]
+    TEXT
+    create_test_data_file(@temp_data_path, json_str)
+    
+    memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
+    memo = Memo.new(expected[:id], expected[:title], expected[:content])
+
+    memo_repository_before_reload.update(memo)
+    updated_memo = memo_repository_before_reload.find_by(expected[:id])
+    assert_equal expected[:id], updated_memo.id
+    assert_equal expected[:title], updated_memo.title
+    assert_equal expected[:content], updated_memo.content
+
+    memo_repository_after_reload = MemoJSONRepository.new(@temp_data_path)
+    updated_memo_after_reload = memo_repository_before_reload.find_by(expected[:id])
+    assert_equal expected[:id], updated_memo_after_reload.id
+    assert_equal expected[:title], updated_memo_after_reload.title
+    assert_equal expected[:content], updated_memo_after_reload.content
+  end
+
   def teardown
     FileUtils.remove(@temp_data_path) if File.exist?(@temp_data_path)
   end
