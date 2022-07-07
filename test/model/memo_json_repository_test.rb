@@ -62,6 +62,6 @@ class MemoJSONRepositoryTest < Minitest::Test
   end
 
   def teardown
-    FileUtils.remove(@temp_data_path)
+    FileUtils.remove(@temp_data_path) if File.exist?(@temp_data_path)
   end
 end
