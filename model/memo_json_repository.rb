@@ -3,7 +3,11 @@ require_relative './memo_base_repository'
 require_relative './memo'
 
 class MemoJSONRepository < MemoBaseRepository
-  def initialize(str)
+  def initialize(path)
+    str = ''
+    File.open(path) do |f|
+      str = f.read
+    end
     parser = JSON::Parser.new(str)
     json = parser.parse
     @memos = to_memos(json)
@@ -14,6 +18,7 @@ class MemoJSONRepository < MemoBaseRepository
   end
 
   private
+
   def to_memos(json)
     json.map do |j|
       Memo.new(j['id'], j['title'], j['content'])
