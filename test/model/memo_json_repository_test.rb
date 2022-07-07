@@ -4,6 +4,20 @@ require_relative '../../model/memo_json_repository'
 class MemoJSONRepositoryTest < Minitest::Test
   def setup
     @temp_data_path = 'temp.json'
+    @json_str = <<~"TEXT"
+      [
+        {
+          "id": "8bd1f78b-a362-4e8d-8510-c3016be1fa89",
+          "title": "タイトル2",
+          "content": "hoge"
+        },
+        {
+          "id": "e6eeaa77-d547-4920-a3d2-634ab636c82b",
+          "title": "タイトル",
+          "content": "テストだよ\\n"
+        }
+      ]
+    TEXT
   end
 
   def create_test_data_file(path, str)
@@ -15,22 +29,7 @@ class MemoJSONRepositoryTest < Minitest::Test
 
   def test_find_by_id
     expected = { id: 'e6eeaa77-d547-4920-a3d2-634ab636c82b', title: 'タイトル', content: "テストだよ\n" }
-    json_str = <<~"TEXT"
-      [
-        {
-          "id": "#{expected[:id]}",
-          "title": "タイトル",
-          "content": "テストだよ\\n"
-        },
-        {
-          "id": "8bd1f78b-a362-4e8d-8510-c3016be1fa89",
-          "title": "タイトル2",
-          "content": "hoge"
-        }
-      ]
-    TEXT
-
-    create_test_data_file(@temp_data_path, json_str)
+    create_test_data_file(@temp_data_path, @json_str)
 
     memo_repository = MemoJSONRepository.new(@temp_data_path)
     memo = memo_repository.find_by(expected[:id])
@@ -63,22 +62,8 @@ class MemoJSONRepositoryTest < Minitest::Test
 
   def test_update_memo
     expected = { id: 'e6eeaa77-d547-4920-a3d2-634ab636c82b', title: 'タイトル変更', content: "内容を変更したよ\n" }
-    json_str = <<~"TEXT"
-      [
-        {
-          "id": "8bd1f78b-a362-4e8d-8510-c3016be1fa89",
-          "title": "タイトル2",
-          "content": "hoge"
-        },
-        {
-          "id": "#{expected[:id]}",
-          "title": "タイトル",
-          "content": "テストだよ\\n"
-        }
-      ]
-    TEXT
-    create_test_data_file(@temp_data_path, json_str)
-    
+    create_test_data_file(@temp_data_path, @json_str)
+
     memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
     memo = Memo.new(expected[:id], expected[:title], expected[:content])
 
@@ -97,22 +82,8 @@ class MemoJSONRepositoryTest < Minitest::Test
 
   def test_delete_memo
     expected = { id: 'e6eeaa77-d547-4920-a3d2-634ab636c82b', title: 'タイトル', content: "テストだよ\n" }
-    json_str = <<~"TEXT"
-      [
-        {
-          "id": "8bd1f78b-a362-4e8d-8510-c3016be1fa89",
-          "title": "タイトル2",
-          "content": "hoge"
-        },
-        {
-          "id": "#{expected[:id]}",
-          "title": "タイトル",
-          "content": "テストだよ\\n"
-        }
-      ]
-    TEXT
-    create_test_data_file(@temp_data_path, json_str)
-    
+    create_test_data_file(@temp_data_path, @json_str)
+
     memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
     memo = Memo.new(expected[:id], expected[:title], expected[:content])
 
