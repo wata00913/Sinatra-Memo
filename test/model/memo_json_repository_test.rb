@@ -6,14 +6,19 @@ class MemoJSONRepositoryTest < Minitest::Test
     @temp_data_path = 'temp.json'
   end
 
+  def create_test_data_file(path, str)
+    FileUtils.touch(path)
+    File.open(path, 'w') do |f|
+      f.puts(str)
+    end
+  end
+
   def test_find_by_id
-    expected_id = 'e6eeaa77-d547-4920-a3d2-634ab636c82b'
-    expected_title = 'タイトル'
-    expected_content = "テストだよ\n"
+    expected = { id: 'e6eeaa77-d547-4920-a3d2-634ab636c82b', title: 'タイトル', content: "テストだよ\n" }
     json_str = <<~"TEXT"
       [
         {
-          "id": "#{expected_id}",
+          "id": "#{expected[:id]}",
           "title": "タイトル",
           "content": "テストだよ\\n"
         },
@@ -25,18 +30,14 @@ class MemoJSONRepositoryTest < Minitest::Test
       ]
     TEXT
 
-    FileUtils.touch(@temp_data_path)
-    File.open(@temp_data_path, 'w') do |f|
-      f.puts(json_str)
-    end
+    create_test_data_file(@temp_data_path, json_str)
 
     memo_repository = MemoJSONRepository.new(@temp_data_path)
-    memo = memo_repository.find_by(expected_id)
+    memo = memo_repository.find_by(expected[:id])
 
-
-    assert_equal expected_id, memo.id
-    assert_equal expected_title, memo.title
-    assert_equal expected_content, memo.content
+    assert_equal expected[:id], memo.id
+    assert_equal expected[:title], memo.title
+    assert_equal expected[:content], memo.content
   end
 
   def teardown
