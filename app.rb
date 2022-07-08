@@ -31,3 +31,9 @@ get '/memos/:id' do |id|
   @memo = @memos.find { |m| m.id == id }
   erb :detail_memo
 end
+
+get '/memos/:id/edit' do |id|
+  @title = '編集'
+  @memo = @memos.find { |m| m.id == id }
+  erb :edit_memo
+end
