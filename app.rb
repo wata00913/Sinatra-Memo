@@ -37,3 +37,7 @@ get '/memos/:id/edit' do |id|
   @memo = @memos.find { |m| m.id == id }
   erb :edit_memo
 end
+
+put '/memos/:id' do |id|
+  redirect "/memos/#{id}"
+end
