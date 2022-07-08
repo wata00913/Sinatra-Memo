@@ -25,3 +25,9 @@ get '/memos/new' do
   @title = '新規作成'
   erb :new_memo
 end
+
+get '/memos/:id' do |id|
+  @title = '詳細'
+  @memo = @memos.find { |m| m.id == id }
+  erb :detail_memo
+end
