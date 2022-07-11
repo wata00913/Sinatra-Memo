@@ -23,6 +23,13 @@ class MemoService
     @repository.find_by(id)
   end
 
+  def update(id, title, content)
+    memo = Memo.new(id, title, content)
+    @repository.update(memo)
+    { result: 'success',
+      msg: '変更に成功しました' }
+  end
+
   def delete(id)
     @repository.delete(id)
     { result: 'success',

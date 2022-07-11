@@ -35,6 +35,10 @@ end
 
 get '/memos/:id' do |id|
   @title = '詳細'
+  if session[:result]
+    @message = session[:result][:msg]
+    session.delete(:result)
+  end
   @memo = @service.find_by(id)
   erb :detail_memo
 end
@@ -46,6 +50,7 @@ get '/memos/:id/edit' do |id|
 end
 
 put '/memos/:id' do |id|
+  session[:result] = @service.update(id, params[:title], params[:content])
   redirect "/memos/#{id}"
 end
 
