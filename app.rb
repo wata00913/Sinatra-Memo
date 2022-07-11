@@ -49,7 +49,7 @@ get '/memos/:id/edit' do |id|
   erb :edit_memo
 end
 
-put '/memos/:id' do |id|
+patch '/memos/:id' do |id|
   session[:result] = @service.update(id, params[:title], params[:content])
   redirect "/memos/#{id}"
 end
