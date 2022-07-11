@@ -48,3 +48,8 @@ end
 put '/memos/:id' do |id|
   redirect "/memos/#{id}"
 end
+
+delete '/memos/:id' do |id|
+  session[:result] = @service.delete(id)
+  redirect '/memos'
+end

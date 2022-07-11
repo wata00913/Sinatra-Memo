@@ -22,4 +22,10 @@ class MemoService
   def find_by(id)
     @repository.find_by(id)
   end
+
+  def delete(id)
+    @repository.delete(id)
+    { result: 'success',
+      msg: '削除に成功しました' }
+  end
 end
