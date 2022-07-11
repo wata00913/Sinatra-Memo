@@ -1,19 +1,18 @@
 require 'sinatra'
 require 'sinatra/reloader'
+require_relative './model/memo_service'
 
 get '/' do
   redirect '/memos'
 end
 
 before do
-  memo_struct = Struct.new('Memo', 'id', 'title', 'content')
-  memo = memo_struct.new('1', 'メモ', 'メモです')
-  @memos = [memo_struct.new('1', 'メモ', 'メモです'),
-            memo_struct.new('2', 'memo', 'this is memo')]
+  @service = MemoService.new
 end
 
 get '/memos' do
   @title = 'メモアプリ一覧'
+  @memos = @service.memos
   erb :memos
 end
 
