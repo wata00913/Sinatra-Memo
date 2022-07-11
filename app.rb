@@ -41,7 +41,7 @@ end
 
 get '/memos/:id/edit' do |id|
   @title = '編集'
-  @memo = @memos.find { |m| m.id == id }
+  @memo = @service.find_by(id)
   erb :edit_memo
 end
 
