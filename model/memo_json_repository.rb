@@ -14,6 +14,11 @@ class MemoJSONRepository < MemoBaseRepository
     @path = path
   end
 
+  def memos
+    # TODO: ディープコピーが必要か検討
+    @memos.map(&:clone)
+  end
+
   def find_by(id)
     @memos.find { |memo| memo.id == id }
   end
