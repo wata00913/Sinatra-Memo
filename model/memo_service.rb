@@ -18,4 +18,8 @@ class MemoService
     { result: 'success',
       msg: '登録に成功しました' }
   end
+
+  def find_by(id)
+    @repository.find_by(id)
+  end
 end

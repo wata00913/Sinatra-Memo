@@ -35,7 +35,7 @@ end
 
 get '/memos/:id' do |id|
   @title = '詳細'
-  @memo = @memos.find { |m| m.id == id }
+  @memo = @service.find_by(id)
   erb :detail_memo
 end
 
