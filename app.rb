@@ -16,6 +16,8 @@ end
 
 get '/memos' do
   @title = 'メモアプリ一覧'
+  # リダイレクトで受け取ったメッセージを反映後、受け渡したデータは削除する。
+  # TODO: セッションを用いた処理を共通化する
   if session[:result]
     @message = session[:result][:msg]
     session.delete(:result)
@@ -36,18 +38,34 @@ end
 
 get '/memos/:id' do |id|
   @title = '詳細'
+  # リダイレクトで受け取ったメッセージを反映後、受け渡したデータは削除する。
   if session[:result]
     @message = session[:result][:msg]
     session.delete(:result)
   end
-  @memo = @service.find_by(id)
-  erb :detail_memo
+
+  result = @service.find_by(id)
+
+  case result[:result]
+  when 'success'
+    @memo = result[:data]
+    erb :detail_memo
+  when 'fail'
+    status 404
+  end
 end
 
 get '/memos/:id/edit' do |id|
   @title = '編集'
-  @memo = @service.find_by(id)
-  erb :edit_memo
+
+  result = @service.find_by(id)
+  case result[:result]
+  when 'success'
+    @memo = result[:data]
+    erb :edit_memo
+  when 'fail'
+    status 404
+  end
 end
 
 not_found do
