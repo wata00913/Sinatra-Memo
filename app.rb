@@ -4,8 +4,8 @@ require_relative './model/memo_service'
 
 enable :sessions
 
-ESCAPE = {
-  '&' => '&amp;', # &の置換処理は最初に行う。
+ESCAPE_DICT = {
+  '&' => '&amp;', # コードに&が含まれるので、記号&をHashの先頭要素にする。
   '<' => '&lt;',
   '>' => '&gt;',
   '"' => '&quot;',
@@ -15,11 +15,7 @@ ESCAPE = {
 
 helpers do
   def escape(str)
-    result = str.clone
-    ESCAPE.each do |char, esc|
-      result = result.gsub(char, esc)
-    end
-    result
+    ESCAPE_DICT.inject(str) { |r, (char, code)| r.gsub(char, code) }
   end
 end
 
@@ -46,7 +42,6 @@ post '/memos' do
   session[:result] = @service.create(params[:title], params[:content])
   redirect 'memos'
 end
-
 
 get '/memos/new' do
   @title = '新規作成'
