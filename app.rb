@@ -4,6 +4,25 @@ require_relative './model/memo_service'
 
 enable :sessions
 
+ESCAPE = {
+  '&' => '&amp;', # &の置換処理は最初に行う。
+  '<' => '&lt;',
+  '>' => '&gt;',
+  '"' => '&quot;',
+  '\'' => '&quot;',
+  ' ' => '&nbsp;'
+}.freeze
+
+helpers do
+  def escape(str)
+    result = str.clone
+    ESCAPE.each do |char, esc|
+      result = result.gsub(char, esc)
+    end
+    result
+  end
+end
+
 get '/' do
   redirect '/memos'
 end
@@ -27,6 +46,7 @@ post '/memos' do
   session[:result] = @service.create(params[:title], params[:content])
   redirect 'memos'
 end
+
 
 get '/memos/new' do
   @title = '新規作成'

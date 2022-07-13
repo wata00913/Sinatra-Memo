@@ -1,5 +1,5 @@
 <% @memos.each do |m| %>
-  <li><a href="/memos/<%= m.id %>"><%= m.title  %></a></li>
+  <li><a href="/memos/<%= m.id %>"><%= escape(m.title) %></a></li>
 <% end %>
 
 <div>
