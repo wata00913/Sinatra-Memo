@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require_relative './model/memo_service'
 
 enable :sessions
+set :show_exceptions, :after_handler
 
 get '/' do
   redirect '/memos'
@@ -51,6 +52,10 @@ end
 
 not_found do
   erb :'404'
+end
+
+error 500 do
+  erb :'server_error'
 end
 
 patch '/memos/:id' do |id|
