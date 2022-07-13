@@ -49,6 +49,10 @@ get '/memos/:id/edit' do |id|
   erb :edit_memo
 end
 
+not_found do
+  erb :'404'
+end
+
 patch '/memos/:id' do |id|
   session[:result] = @service.update(id, params[:title], params[:content])
   redirect "/memos/#{id}"
