@@ -51,11 +51,11 @@ get '/memos/:id/edit' do |id|
 end
 
 not_found do
-  erb :'404'
+  erb :not_found
 end
 
 error 500 do
-  erb :'server_error'
+  erb :server_error
 end
 
 patch '/memos/:id' do |id|
