@@ -18,6 +18,10 @@ module Config
       @json = to_json_from(conf_path)
     end
 
+    def clear
+      @json = {}
+    end
+
     private
 
     def to_json_from(path)
