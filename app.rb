@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require_relative './model/memo_service'
 
 enable :sessions
+set :show_exceptions, :after_handler
 
 get '/' do
   redirect '/memos'
@@ -13,12 +14,22 @@ before do
   @message = ''
 end
 
-get '/memos' do
-  @title = 'メモアプリ一覧'
-  if session[:result]
+helpers do
+  def use_result_session_if
+    return unless session[:result]
+
+    # 現状はメッセージの設定のみ
     @message = session[:result][:msg]
+    # メッセージを反映後、受け渡したデータは削除する。
     session.delete(:result)
   end
+end
+
+get '/memos' do
+  @title = 'メモアプリ一覧'
+  # POSTメソッドでリダイレクトした場合、セッションを利用する
+  use_result_session_if
+
   @memos = @service.memos
   erb :memos
 end
@@ -35,18 +46,40 @@ end
 
 get '/memos/:id' do |id|
   @title = '詳細'
-  if session[:result]
-    @message = session[:result][:msg]
-    session.delete(:result)
+
+  # PATCHメソッドでリダイレクトした場合、セッションを利用する
+  use_result_session_if
+
+  result = @service.find_by(id)
+
+  case result[:result]
+  when 'success'
+    @memo = result[:data]
+    erb :detail_memo
+  when 'fail'
+    status 404
   end
-  @memo = @service.find_by(id)
-  erb :detail_memo
 end
 
 get '/memos/:id/edit' do |id|
   @title = '編集'
-  @memo = @service.find_by(id)
-  erb :edit_memo
+
+  result = @service.find_by(id)
+  case result[:result]
+  when 'success'
+    @memo = result[:data]
+    erb :edit_memo
+  when 'fail'
+    status 404
+  end
+end
+
+not_found do
+  erb :not_found
+end
+
+error 500 do
+  erb :server_error
 end
 
 patch '/memos/:id' do |id|

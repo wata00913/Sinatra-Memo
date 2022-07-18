@@ -20,19 +20,33 @@ class MemoService
   end
 
   def find_by(id)
-    @repository.find_by(id)
+    memo = @repository.find_by(id)
+    if memo
+      { result: 'success', msg: '', data: memo }
+    else
+      { result: 'fail', msg: '該当するメモは存在しません' }
+    end
   end
 
   def update(id, title, content)
     memo = Memo.new(id, title, content)
-    @repository.update(memo)
-    { result: 'success',
-      msg: '変更に成功しました' }
+
+    begin
+      @repository.update(memo)
+      { result: 'success',
+        msg: '変更に成功しました' }
+    rescue StandardError => e
+      { result: 'fail',
+        msg: e.message }
+    end
   end
 
   def delete(id)
     @repository.delete(id)
     { result: 'success',
       msg: '削除に成功しました' }
+  rescue StandardError => e
+    { result: 'fail',
+      msg: e.message }
   end
 end
