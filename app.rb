@@ -14,14 +14,22 @@ before do
   @message = ''
 end
 
-get '/memos' do
-  @title = 'メモアプリ一覧'
-  # リダイレクトで受け取ったメッセージを反映後、受け渡したデータは削除する。
-  # TODO: セッションを用いた処理を共通化する
-  if session[:result]
+helpers do
+  def use_result_session_if
+    return unless session[:result]
+
+    # 現状はメッセージの設定のみ
     @message = session[:result][:msg]
+    # メッセージを反映後、受け渡したデータは削除する。
     session.delete(:result)
   end
+end
+
+get '/memos' do
+  @title = 'メモアプリ一覧'
+  # POSTメソッドでリダイレクトした場合、セッションを利用する
+  use_result_session_if
+
   @memos = @service.memos
   erb :memos
 end
@@ -38,11 +46,9 @@ end
 
 get '/memos/:id' do |id|
   @title = '詳細'
-  # リダイレクトで受け取ったメッセージを反映後、受け渡したデータは削除する。
-  if session[:result]
-    @message = session[:result][:msg]
-    session.delete(:result)
-  end
+
+  # PATCHメソッドでリダイレクトした場合、セッションを利用する
+  use_result_session_if
 
   result = @service.find_by(id)
 
