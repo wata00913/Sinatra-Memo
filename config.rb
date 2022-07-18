@@ -2,6 +2,8 @@ require 'json'
 
 module Config
   DEFAULT_JSON_DATA_FILE_NAME = 'data.json'.freeze
+  SAVE_TYPES = %w[json db].freeze
+
   @root_dir = File.dirname(__FILE__)
   @default_json_data_path = File.join(@root_dir, DEFAULT_JSON_DATA_FILE_NAME)
   @json_data_path = @default_json_data_path
@@ -20,6 +22,13 @@ module Config
 
     def clear
       @json = {}
+    end
+
+    def save_type
+      t = @json['save_type'] || SAVE_TYPES[0]
+      raise StandardError '保存形式が正しくありません' unless SAVE_TYPES.find(t)
+
+      t
     end
 
     private

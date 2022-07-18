@@ -6,6 +6,7 @@ class ConfigTest < Minitest::Test
     @config_path = File.join(File.expand_path('..'), 'config.json')
     @setting_json_data_path = File.join(File.expand_path(__dir__), 'data.json')
     @default_json_data_path = File.join(File.expand_path('..'), 'data.json')
+    @save_type = 'json'
   end
 
   def teardown
@@ -19,5 +20,14 @@ class ConfigTest < Minitest::Test
   def test_setting_json_data_path
     Config.read(@config_path)
     assert_equal @setting_json_data_path, Config.json_data_path
+  end
+
+  def test_default_save_type_is_json
+    assert_equal @save_type, Config.save_type
+  end
+
+  def test_default_save_type_is_json
+    Config.read(@config_path)
+    assert_equal @save_type, Config.save_type
   end
 end
