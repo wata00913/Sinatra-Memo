@@ -5,15 +5,6 @@ require_relative './model/memo_service'
 enable :sessions
 set :show_exceptions, :after_handler
 
-get '/' do
-  redirect '/memos'
-end
-
-before do
-  @service = MemoService.new
-  @message = ''
-end
-
 helpers do
   def use_result_session_if
     return unless session[:result]
@@ -24,6 +15,23 @@ helpers do
     # メッセージを反映後、受け渡したデータは削除する。
     session.delete(:result)
   end
+end
+
+before do
+  @service = MemoService.new
+  @message = ''
+end
+
+not_found do
+  erb :not_found
+end
+
+error 500 do
+  erb :server_error
+end
+
+get '/' do
+  redirect '/memos'
 end
 
 get '/memos' do
@@ -71,14 +79,6 @@ get '/memos/:id/edit' do |id|
   else
     status 404
   end
-end
-
-not_found do
-  erb :not_found
-end
-
-error 500 do
-  erb :server_error
 end
 
 patch '/memos/:id' do |id|
