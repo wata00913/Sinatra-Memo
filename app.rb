@@ -33,11 +33,29 @@ helpers do
   def use_result_session_if
     return unless session[:result]
 
+    result = session[:result]
     # 現状はメッセージの設定のみ
-    @message = session[:result][:msg]
+    @message = result.msg
     # メッセージを反映後、受け渡したデータは削除する。
     session.delete(:result)
   end
+end
+
+before do
+  @service = MemoService.new
+  @message = ''
+end
+
+not_found do
+  erb :not_found
+end
+
+error 500 do
+  erb :server_error
+end
+
+get '/' do
+  redirect '/memos'
 end
 
 get '/memos' do
@@ -67,11 +85,10 @@ get '/memos/:id' do |id|
 
   result = @service.find_by(id)
 
-  case result[:result]
-  when 'success'
-    @memo = result[:data]
+  if result.success?
+    @memo = result.data
     erb :detail_memo
-  when 'fail'
+  else
     status 404
   end
 end
@@ -80,21 +97,12 @@ get '/memos/:id/edit' do |id|
   @title = '編集'
 
   result = @service.find_by(id)
-  case result[:result]
-  when 'success'
-    @memo = result[:data]
+  if result.success?
+    @memo = result.data
     erb :edit_memo
-  when 'fail'
+  else
     status 404
   end
-end
-
-not_found do
-  erb :not_found
-end
-
-error 500 do
-  erb :server_error
 end
 
 patch '/memos/:id' do |id|

@@ -1,13 +1,13 @@
 class Result
-  attr_reader :data, :message
+  attr_reader :data, :msg
 
   class << self
-    def success(data: nil, message: nil)
-      new(success: true, data: data, message: message)
+    def success(data: nil, msg: nil)
+      new(success: true, data: data, msg: msg)
     end
 
-    def fail(data: nil, message: nil)
-      new(success: false, data: data, message: message)
+    def fail(data: nil, msg: nil)
+      new(success: false, data: data, msg: msg)
     end
   end
 
@@ -17,9 +17,9 @@ class Result
 
   private
 
-  def initialize(success:, data:, message:)
+  def initialize(success:, data:, msg:)
     @success = success
     @data = data
-    @message = message
+    @msg = msg
   end
 end
