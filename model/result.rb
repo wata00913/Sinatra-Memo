@@ -15,10 +15,6 @@ class Result
     @success
   end
 
-  def [](attr)
-    instance_variable_get "@#{attr}"
-  end
-
   private
 
   def initialize(success:, data:, msg:)
