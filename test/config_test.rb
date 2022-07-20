@@ -5,9 +5,10 @@ require_relative '../config'
 
 class ConfigTest < Minitest::Test
   def setup
+    root_dir = File.expand_path('..')
     @config_path = File.join(File.expand_path(__dir__), 'config.json')
     @setting_json_data_path = File.join(File.expand_path(__dir__), 'data.json')
-    @default_json_data_path = File.join(File.expand_path('..'), 'data.json')
+    @default_json_data_path = File.join(root_dir, 'json_data/data.json')
     @save_type = 'json'
   end
 
