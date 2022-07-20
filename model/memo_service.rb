@@ -19,7 +19,7 @@ class MemoService
   end
 
   def create(title, content)
-    new_memo = Memo.new(nil, title, content)
+    new_memo = Memo.new(title, content)
     @repository.register(new_memo)
     Result.success(msg: '登録に成功しました')
   end
@@ -34,7 +34,7 @@ class MemoService
   end
 
   def update(id, title, content)
-    memo = Memo.new(id, title, content)
+    memo = Memo.new(title, content, id: id)
 
     begin
       @repository.update(memo)
