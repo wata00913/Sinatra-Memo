@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../config'
 require_relative './memo'
 require_relative './memo_json_repository'
