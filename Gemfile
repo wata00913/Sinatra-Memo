@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-ruby '3.0.2'
+ruby '3.0.4'
 
 gem 'rubocop-fjord', require: false
 gem 'erb_lint', require: false
