@@ -9,8 +9,10 @@ class ConfigTest < Minitest::Test
     @setting_json_data_path = File.join(File.expand_path(__dir__), 'data.json')
     @default_json_data_path = File.join(File.expand_path('..'), 'data.json')
     @save_type = 'json'
+  end
 
-    File.open(@config_path, 'w') do |f|
+  def create_test_data_file(path)
+    File.open(path, 'w') do |f|
       data = <<~TEXT
         {
             "json_data_path": "./test/data.json",
@@ -26,21 +28,15 @@ class ConfigTest < Minitest::Test
     FileUtils.rm(@config_path) if File.exist?(@config_path)
   end
 
-  def test_default_json_data_path
+  def test_default
     assert_equal @default_json_data_path, Config.json_data_path
-  end
-
-  def test_setting_json_data_path
-    Config.read(@config_path)
-    assert_equal @setting_json_data_path, Config.json_data_path
-  end
-
-  def test_default_save_type_is_json
     assert_equal @save_type, Config.save_type
   end
 
-  def test_setting_save_type_is_json
+  def test_setting
+    create_test_data_file(@config_path)
     Config.read(@config_path)
+    assert_equal @setting_json_data_path, Config.json_data_path
     assert_equal @save_type, Config.save_type
   end
 end
