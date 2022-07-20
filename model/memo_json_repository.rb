@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require_relative './memo_base_repository'
 require_relative './memo'
@@ -51,7 +53,7 @@ class MemoJSONRepository < MemoBaseRepository
 
   def to_memos(json)
     json.map do |j|
-      Memo.new(j['id'], j['title'], j['content'])
+      Memo.new(j['title'], j['content'], id: j['id'])
     end
   end
 
