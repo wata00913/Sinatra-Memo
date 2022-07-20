@@ -3,11 +3,11 @@
 require 'json'
 
 module Config
-  DEFAULT_JSON_DATA_FILE_NAME = 'data.json'
+  DEFAULT_JSON_DATA_SUB_PATH = 'json_data/data.json'
   SAVE_TYPES = %w[json db].freeze
 
   @root_dir = File.dirname(__FILE__)
-  @default_json_data_path = File.join(@root_dir, DEFAULT_JSON_DATA_FILE_NAME)
+  @default_json_data_path = File.join(@root_dir, DEFAULT_JSON_DATA_SUB_PATH)
   @json_data_path = @default_json_data_path
   @json = {}
 
