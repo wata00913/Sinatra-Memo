@@ -40,6 +40,8 @@ module Config
       File.open(path) do |f|
         str = f.read
       end
+      # 空ファイルだとJSONパーサーがパースエラーを起こすので、{}を引数にする
+      str = '{}' if str.empty?
       parser = JSON::Parser.new(str)
       parser.parse
     end
