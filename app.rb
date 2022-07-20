@@ -22,15 +22,6 @@ helpers do
   end
 end
 
-get '/' do
-  redirect '/memos'
-end
-
-before do
-  @service = MemoService.new
-  @message = ''
-end
-
 helpers do
   def use_result_session_if
     return unless session[:result]
