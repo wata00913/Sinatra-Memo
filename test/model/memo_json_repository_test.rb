@@ -45,7 +45,7 @@ class MemoJSONRepositoryTest < Minitest::Test
     # データ件数が0件の場合のファイルを作成
     create_test_data_file(@temp_data_path, '[]')
 
-    new_memo = Memo.new(nil, '新規メモ', "メモ作成\n")
+    new_memo = Memo.new('新規メモ', "メモ作成\n")
     memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
     assert memo_repository_before_reload.register(new_memo)
 
