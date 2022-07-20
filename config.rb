@@ -14,7 +14,9 @@ module Config
   class << self
     def json_data_path
       p = @json['json_data_path'] || @default_json_data_path
-      p = File.expand_path(File.join(@root_dir, p)) unless File.absolute_path?(p)
+      return File.expand_path(p) if /^~/.match?(p)
+
+      p = File.absolute_path(File.join(@root_dir, p)) unless File.absolute_path?(p)
       p
     end
 
