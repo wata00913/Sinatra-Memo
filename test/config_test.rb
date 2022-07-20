@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require_relative '../config'
 
@@ -37,7 +39,7 @@ class ConfigTest < Minitest::Test
     assert_equal @save_type, Config.save_type
   end
 
-  def test_default_save_type_is_json
+  def test_setting_save_type_is_json
     Config.read(@config_path)
     assert_equal @save_type, Config.save_type
   end

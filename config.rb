@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'json'
 
 module Config
-  DEFAULT_JSON_DATA_FILE_NAME = 'data.json'.freeze
+  DEFAULT_JSON_DATA_FILE_NAME = 'data.json'
   SAVE_TYPES = %w[json db].freeze
 
   @root_dir = File.dirname(__FILE__)
