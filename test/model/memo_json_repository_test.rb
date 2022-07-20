@@ -67,7 +67,7 @@ class MemoJSONRepositoryTest < Minitest::Test
     create_test_data_file(@temp_data_path, @json_str)
 
     memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
-    memo = Memo.new(expected[:id], expected[:title], expected[:content])
+    memo = Memo.new(expected[:title], expected[:content], id: expected[:id])
 
     memo_repository_before_reload.update(memo)
     updated_memo = memo_repository_before_reload.find_by(expected[:id])
@@ -87,7 +87,7 @@ class MemoJSONRepositoryTest < Minitest::Test
     create_test_data_file(@temp_data_path, @json_str)
 
     memo_repository_before_reload = MemoJSONRepository.new(@temp_data_path)
-    memo = Memo.new(expected[:id], expected[:title], expected[:content])
+    memo = Memo.new(expected[:title], expected[:content], id: expected[:id])
 
     memo_repository_before_reload.delete(memo.id)
     refute memo_repository_before_reload.find_by(memo.id)
