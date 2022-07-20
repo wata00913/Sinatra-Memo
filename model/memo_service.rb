@@ -5,7 +5,7 @@ require_relative './memo'
 require_relative './memo_json_repository'
 require_relative './result'
 
-CONF_FILE_NAME = 'config.json'.freeze
+CONF_FILE_NAME = 'config.json'
 CONF_PATH = File.expand_path(CONF_FILE_NAME).freeze
 
 class MemoService
