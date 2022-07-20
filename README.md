@@ -1,10 +1,10 @@
 # Sinatra-Memo
 ## Sinatraを使ったシンプルなメモアプリ
-フィヨルドブートキャンプのプラクティス「(Sinatra を使ってWebアプリケーションの基本を理解する)[https://bootcamp.fjord.jp/practices/157]
+フィヨルドブートキャンプのプラクティス「[Sinatra を使ってWebアプリケーションの基本を理解する](https://bootcamp.fjord.jp/practices/157)
 」の課題で作成したメモアプリになります。
 
 ## Rubyのバージョン
-3.0.4のみ動作環境を確認してますので、3.0.4をご使用してください。
+`3.0.4`
 
 ## インストール
 `git clone`コマンドでリポジトリをインストールしてください。
@@ -12,16 +12,23 @@
 git clone https://github.com/wata00913/Sinatra-Memo.git
 ```
 
-bundlerを使って、アプリ起動に必要なgemをインストールします。
+Bundlerを使って、アプリケーションの起動に必要なgemをインストールします。
 ```shell
 bundle install
 ```
 
 ## アプリケーションの起動
+ローカルのみで起動可能です。
+
 カレントディレクトリをSinatra-Memoのルートディレクトリにします。
 bundle execコマンドを使ってアプリケーションを起動します。
 ```shell
 bundle exec ruby app.rb
+```
+
+以下のURLにアクセスします。
+```shell
+http:localhost:4567/
 ```
 
 後述の設定ファイルにて、メモアプリに関する設定ができますが、インストール時の設定でも動作します。
@@ -43,15 +50,15 @@ bundle exec ruby app.rb
 現在、DB形式は未対応です。
 
 ### JSONファイルのパス
-JSONファイルの保存場所を指定します。相対パス、絶対パスのどちらでも指定可能です。
-個人で用意したJSONファイルは、空の状態だとアプリケーションの起動に失敗します。
+JSONファイルの保存場所を指定します。相対パス、絶対パスのどちらでも指定可能です。</br>
 
+個人で用意したJSONファイルは、空の状態だとアプリケーションの起動に失敗します。
 以下のように設定してください。
 ```json
 []
 ```
 
-### 設定例
+### `config.json`の設定例
 ```json
 {
     "json_data_path": "./json_data/data.json",
