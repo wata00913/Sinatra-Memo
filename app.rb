@@ -20,9 +20,7 @@ helpers do
   def escape(str)
     ESCAPE_DICT.inject(str) { |r, (char, code)| r.gsub(char, code) }
   end
-end
 
-helpers do
   def use_result_session_if
     return unless session[:result]
 
@@ -86,6 +84,16 @@ get '/memos/:id' do |id|
   end
 end
 
+patch '/memos/:id' do |id|
+  session[:result] = @service.update(id, params[:title], params[:content])
+  redirect "/memos/#{id}"
+end
+
+delete '/memos/:id' do |id|
+  session[:result] = @service.delete(id)
+  redirect '/memos'
+end
+
 get '/memos/:id/edit' do |id|
   @title = '編集'
 
@@ -96,14 +104,4 @@ get '/memos/:id/edit' do |id|
   else
     status 404
   end
-end
-
-patch '/memos/:id' do |id|
-  session[:result] = @service.update(id, params[:title], params[:content])
-  redirect "/memos/#{id}"
-end
-
-delete '/memos/:id' do |id|
-  session[:result] = @service.delete(id)
-  redirect '/memos'
 end
