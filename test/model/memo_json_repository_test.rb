@@ -76,7 +76,7 @@ class MemoJSONRepositoryTest < Minitest::Test
     assert_equal expected[:content], updated_memo.content
 
     memo_repository_after_reload = MemoJSONRepository.new(@temp_data_path)
-    updated_memo_after_reload = memo_repository_before_reload.find_by(expected[:id])
+    updated_memo_after_reload = memo_repository_after_reload.find_by(expected[:id])
     assert_equal expected[:id], updated_memo_after_reload.id
     assert_equal expected[:title], updated_memo_after_reload.title
     assert_equal expected[:content], updated_memo_after_reload.content
