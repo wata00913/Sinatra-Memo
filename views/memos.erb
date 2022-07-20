@@ -1,0 +1,7 @@
+<% @memos.each do |m| %>
+  <li><a href="/memos/<%= m.id %>"><%= escape(m.title) %></a></li>
+<% end %>
+
+<div>
+  <button type="button" onclick="location.href='/memos/new'">追加</button>
+</div>
