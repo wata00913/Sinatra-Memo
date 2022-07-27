@@ -7,18 +7,9 @@ require_relative './model/memo_service'
 enable :sessions
 set :show_exceptions, :after_handler
 
-ESCAPE_DICT = {
-  '&' => '&amp;', # コードに&が含まれるので、記号&をHashの先頭要素にする。
-  '<' => '&lt;',
-  '>' => '&gt;',
-  '"' => '&quot;',
-  '\'' => '&quot;',
-  ' ' => '&nbsp;'
-}.freeze
-
 helpers do
   def escape(str)
-    ESCAPE_DICT.inject(str) { |r, (char, code)| r.gsub(char, code) }
+    Rack::Utils.escape_html(str)
   end
 
   def use_result_session_if
