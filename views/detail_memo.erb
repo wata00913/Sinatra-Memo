@@ -1,5 +1,5 @@
 <form method="post" action="/memos/<%= @memo.id %>">
-<textarea name="title" rows="1" cols="40" disabled><%= escape(@memo.title);binding.irb %></textarea><br>
+<textarea name="title" rows="1" cols="40" disabled><%= escape(@memo.title) %></textarea><br>
 <textarea name="content" rows="4" cols="40" disabled><%= escape(@memo.content) %></textarea><br>
 <div>
   <button type="button" onclick="location.href='/memos/<%= @memo.id %>/edit'">変更</button>
