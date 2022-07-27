@@ -1,6 +1,6 @@
 <form method="post" action="/memos/<%= @memo.id %>">
-<textarea name="title" rows="1" cols="40"><%= @memo.title %></textarea><br>
-<textarea name="content" rows="4" cols="40"><%= @memo.content %></textarea><br>
+<textarea name="title" rows="1" cols="40"><%= escape(@memo.title) %></textarea><br>
+<textarea name="content" rows="4" cols="40"><%= escape(@memo.content) %></textarea><br>
 <div>
   <input type="hidden" name="_method" value="PATCH">
   <input type="submit" value="変更">
