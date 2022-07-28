@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <mata charset="utf-8">
+  <title><%= @title %></title>
+</head>
+<body>
+  <div>
+    <div style="float: left; width: 80px;">
+      <ul style="list-style: none; padding-left: 10px;">
+        <li><a href="/memos">メモ一覧</a></li>
+      </ul>
+    </div>
+    <div style="float: left">
+      <h1>メモアプリ</h1>
+      <div style="height:24px; margin-block-end:20px; color:red"><%= @message %></div>
+      <div><%= yield %></div>
+    </div>
+  </div>
+</body>
+</html>
